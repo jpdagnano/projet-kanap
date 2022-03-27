@@ -1,15 +1,8 @@
-const dateApi = fetch("http://localhost:3000/api/products")
-  .then(function (res) {
-    if (res.ok) {
-      return res.json();
-    }
-  })
-  .then(function (value) {
-    console.table(value);
-  })
-  .catch(function (err) {
-    // Une erreur est survenue
-  });
+let dataApi = fetch("http://localhost:3000/api/products");
+dataApi.then((response) => {
+  const kanapData = response.json();
+  console.log(kanapData);
+});
 
-let elements = document.getElementById("items");
-elements.innetHTML = dateApi;
+let nomProduit = document.querySelector(".productName");
+nomProduit.innerHTML = "<p>je change le texte</p>";

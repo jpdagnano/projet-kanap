@@ -12,3 +12,10 @@ itemA.appendChild(articleItem);
 articleItem.appendChild(imgItem);
 articleItem.appendChild(nameItem);
 articleItem.appendChild(descItem);
+
+let dataApi = fetch("http://localhost:3000/api/products");
+
+dataApi.then((response) => {
+  const kanapData = response.json();
+  console.log(kanapData);
+});

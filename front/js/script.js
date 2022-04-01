@@ -13,9 +13,12 @@ articleItem.appendChild(imgItem);
 articleItem.appendChild(nameItem);
 articleItem.appendChild(descItem);
 
-let dataApi = fetch("http://localhost:3000/api/products");
-
-dataApi.then((response) => {
-  const kanapData = response.json();
-  console.log(kanapData);
-});
+fetch("http://localhost:3000/api/products").then((response) =>
+  response.json().then((data) => {
+    console.log(data);
+    data.forEach(function (donneesKanap) {
+      console.log(donneesKanap.name);
+      nameItem.innerHTML = donneesKanap.name;
+    });
+  })
+);

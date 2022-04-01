@@ -18,6 +18,10 @@ fetch("http://localhost:3000/api/products").then((response) =>
     console.log(data);
     data.forEach(function (donneesKanap) {
       console.log(donneesKanap.name);
+      for (let i = 0; i < donneesKanap.name; i++) {
+        document.createElement(eltItem);
+        console.log(i);
+      }
       nameItem.innerHTML = donneesKanap.name;
     });
   })

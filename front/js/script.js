@@ -1,6 +1,7 @@
 fetch("http://localhost:3000/api/products").then((response) =>
   response.json().then((data) => {
     console.log(data);
+
     data.forEach(function (donneesKanap) {
       let eltItem = document.getElementById("items");
       let itemA = document.createElement("a");
@@ -25,8 +26,7 @@ fetch("http://localhost:3000/api/products").then((response) =>
       descItem.innerHTML = donneesKanap.description;
       imgItem.src = donneesKanap.imageUrl;
       imgItem.alt = donneesKanap.altTxt;
-
-      console.log(i);
+      itemA.href = "../html/product.html?_id=" + donneesKanap._id;
     });
   })
 );

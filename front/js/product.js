@@ -12,11 +12,29 @@ fetch("http://localhost:3000/api/products/" + pageId).then((response) =>
 
     let description = document.getElementById("description");
     description.innerHTML = data.description;
-
+    let datacolor = data.colors;
     let imgItem = document.createElement("img");
     let divImg = document.querySelector(".item__img");
     divImg.appendChild(imgItem);
     imgItem.src = data.imageUrl;
     imgItem.alt = data.altTxt;
+    datacolor.forEach(function (fullcolor) {
+      let divcolor = document.getElementById("colors");
+      let optioncolor = document.createElement("option");
+      divcolor.appendChild(optioncolor);
+      optioncolor.setAttribute("value", fullcolor);
+      optioncolor.innerHTML = fullcolor;
+      let qtity = document.getElementById("quantity");
+      let clrs = document.getElementById("colors");
+
+      console.log(data.colors);
+
+      addToCart.onclick = (donneesaddcart) => {
+        localStorage.setItem("id", pageId);
+        localStorage.setItem("color", JSON.stringify(clrs.value));
+        localStorage.setItem("quantity", JSON.stringify(qtity.value));
+        console.log(donneesaddcart);
+      };
+    });
   })
 );

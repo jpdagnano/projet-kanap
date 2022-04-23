@@ -27,18 +27,28 @@ fetch("http://localhost:3000/api/products/" + pageId).then((response) =>
       let qtity = document.getElementById("quantity");
       let clrs = document.getElementById("colors");
 
-
-      const ajoutProduit  =() =>
-      
       addToCart.onclick = () => {
-        let donneesLocalS = [
-          {
-            id: pageId,
-            color: clrs.value,
-            qtity: qtity.value,
-          },
-        ];
-        localStorage.setItem("keyKanap", JSON.stringify(donneesLocalS));
+        let donneesLocalS = {
+          id: pageId,
+          color: clrs.value,
+          qtity: qtity.value,
+        };
+        let verifPdtLocalStorage = JSON.parse(localStorage.getItem("keyKanap"));
+
+        if (verifPdtLocalStorage) {
+          verifPdtLocalStorage.push(donneesLocalS);
+          localStorage.setItem(
+            "keyKanap",
+            JSON.stringify(verifPdtLocalStorage)
+          );
+        } else {
+          verifPdtLocalStorage = [];
+          verifPdtLocalStorage.push(donneesLocalS);
+          localStorage.setItem(
+            "keyKanap",
+            JSON.stringify(verifPdtLocalStorage)
+          );
+        }
       };
     });
   })

@@ -27,6 +27,9 @@ fetch("http://localhost:3000/api/products/" + pageId).then((response) =>
       let qtity = document.getElementById("quantity");
       let clrs = document.getElementById("colors");
 
+
+      const ajoutProduit  =() =>
+      
       addToCart.onclick = () => {
         let donneesLocalS = [
           {

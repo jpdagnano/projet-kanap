@@ -24,32 +24,27 @@ fetch("http://localhost:3000/api/products/" + pageId).then((response) =>
       divcolor.appendChild(optioncolor);
       optioncolor.setAttribute("value", fullcolor);
       optioncolor.innerHTML = fullcolor;
-      let qtity = document.getElementById("quantity");
-      let clrs = document.getElementById("colors");
+    });
 
-      addToCart.onclick = () => {
-        let donneesLocalS = {
-          id: pageId,
-          color: clrs.value,
-          qtity: qtity.value,
-        };
-        let verifPdtLocalStorage = JSON.parse(localStorage.getItem("keyKanap"));
-
-        if (verifPdtLocalStorage) {
-          verifPdtLocalStorage.push(donneesLocalS);
-          localStorage.setItem(
-            "keyKanap",
-            JSON.stringify(verifPdtLocalStorage)
-          );
-        } else {
-          verifPdtLocalStorage = [];
-          verifPdtLocalStorage.push(donneesLocalS);
-          localStorage.setItem(
-            "keyKanap",
-            JSON.stringify(verifPdtLocalStorage)
-          );
-        }
+    let boutonAjouter = document.getElementById("addToCart");
+    boutonAjouter.addEventListener("click", () => {
+      let itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
+      let quantity = document.getElementById("quantity");
+      let color = document.getElementById("colors");
+      let donneesLocalS = {
+        id: pageId,
+        color: color.value,
+        quantite: quantity.value,
       };
+      if (itemCanap == null) {
+        itemCanap = [];
+        itemCanap.push(donneesLocalS);
+        localStorage.setItem("keyKanap", JSON.stringify(itemCanap));
+      } else if (itemCanap != null) {
+        itemCanap.forEach((elem, index) => {
+          console.log("elem");
+        });
+      }
     });
   })
 );

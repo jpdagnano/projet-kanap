@@ -29,21 +29,39 @@ fetch("http://localhost:3000/api/products/" + pageId).then((response) =>
     let boutonAjouter = document.getElementById("addToCart");
     boutonAjouter.addEventListener("click", () => {
       let itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
-      let quantity = document.getElementById("quantity");
+      let quantite = document.getElementById("quantity");
       let color = document.getElementById("colors");
-      let donneesLocalS = {
+      let donneesAttente = {
         id: pageId,
         color: color.value,
-        quantite: quantity.value,
+        quantite: quantite.value,
       };
       if (itemCanap == null) {
         itemCanap = [];
-        itemCanap.push(donneesLocalS);
+        itemCanap.push(donneesAttente);
         localStorage.setItem("keyKanap", JSON.stringify(itemCanap));
       } else if (itemCanap != null) {
         itemCanap.forEach((elem, index) => {
-          console.log("elem");
+          let i = 0;
+          let qtyParseA = parseInt(donneesAttente.quantite);
+          let qtyParseB = parseInt(itemCanap[i].quantite);
+          if (
+            itemCanap[i].id == donneesAttente.id &&
+            itemCanap[i].color == donneesAttente.color
+          ) {
+            itemCanap[i].quantite = qtyParseA + qtyParseB;
+            localStorage.setItem("keyKanap", JSON.stringify(itemCanap));
+            itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
+          }
         });
+      }
+      for (i = 0; i < itemCanap.lenght; i++) {
+        if (
+          itemCanap[i].id == donneesAttente.id &&
+          itemCanap[i].color != donneesAttente.color
+        ) {
+          console.log("ohoh");
+        }
       }
     });
   })

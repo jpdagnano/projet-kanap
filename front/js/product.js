@@ -25,7 +25,6 @@ fetch("http://localhost:3000/api/products/" + pageId).then((response) =>
       optioncolor.setAttribute("value", fullcolor);
       optioncolor.innerHTML = fullcolor;
     });
-
     let boutonAjouter = document.getElementById("addToCart");
     boutonAjouter.addEventListener("click", () => {
       let itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
@@ -40,28 +39,27 @@ fetch("http://localhost:3000/api/products/" + pageId).then((response) =>
         itemCanap = [];
         itemCanap.push(donneesAttente);
         localStorage.setItem("keyKanap", JSON.stringify(itemCanap));
+        itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
       } else if (itemCanap != null) {
-        itemCanap.forEach((elem, index) => {
-          let i = 0;
+        itemCanap.forEach((elem) => {
           let qtyParseA = parseInt(donneesAttente.quantite);
-          let qtyParseB = parseInt(itemCanap[i].quantite);
+          let qtyParseB = parseInt(elem.quantite);
           if (
-            itemCanap[i].id == donneesAttente.id &&
-            itemCanap[i].color == donneesAttente.color
+            elem.id == donneesAttente.id &&
+            elem.color == donneesAttente.color
           ) {
-            itemCanap[i].quantite = qtyParseA + qtyParseB;
+            elem.quantite = qtyParseA + qtyParseB;
             localStorage.setItem("keyKanap", JSON.stringify(itemCanap));
             itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
+            console.log("choix 1");
+          } else {
+            parseInt(donneesAttente.quantite);
+            itemCanap.push(donneesAttente);
+            localStorage.setItem("keyKanap", JSON.stringify(itemCanap));
+            itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
+            console.log("choix 2");
           }
         });
-      }
-      for (i = 0; i < itemCanap.lenght; i++) {
-        if (
-          itemCanap[i].id == donneesAttente.id &&
-          itemCanap[i].color != donneesAttente.color
-        ) {
-          console.log("ohoh");
-        }
       }
     });
   })

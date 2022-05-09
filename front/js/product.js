@@ -4,6 +4,17 @@ const longId = new URLSearchParams(pageIdWindow);
 const pageId = longId.get("_id");
 console.log(pageId);
 
+function checkProductCart(panier, productToAdd) {
+  let isIn = -1;
+  panier.forEach((product, index) => {
+    console.log(product.id, productToAdd.id, product.color, productToAdd.color);
+    if (product.id == productToAdd.id && product.color == productToAdd.color) {
+      isIn = index;
+    }
+  });
+  return isIn;
+}
+
 fetch("http://localhost:3000/api/products/" + pageId).then((response) =>
   response.json().then((data) => {
     console.log(data);
@@ -40,26 +51,23 @@ fetch("http://localhost:3000/api/products/" + pageId).then((response) =>
         itemCanap.push(donneesAttente);
         localStorage.setItem("keyKanap", JSON.stringify(itemCanap));
         itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
+        console.log("boucle if");
       } else if (itemCanap != null) {
-        itemCanap.forEach((elem) => {
+        let indexProduct = checkProductCart(itemCanap, donneesAttente);
+        console.log(indexProduct);
+        if (indexProduct >= 0) {
           let qtyParseA = parseInt(donneesAttente.quantite);
-          let qtyParseB = parseInt(elem.quantite);
-          if (
-            elem.id == donneesAttente.id &&
-            elem.color == donneesAttente.color
-          ) {
-            elem.quantite = qtyParseA + qtyParseB;
-            localStorage.setItem("keyKanap", JSON.stringify(itemCanap));
-            itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
-            console.log("choix 1");
-          } else {
-            parseInt(donneesAttente.quantite);
-            itemCanap.push(donneesAttente);
-            localStorage.setItem("keyKanap", JSON.stringify(itemCanap));
-            itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
-            console.log("choix 2");
-          }
-        });
+          let qtyParseB = parseInt(itemCanap[indexProduct].quantite);
+          itemCanap[indexProduct].quantite = qtyParseA + qtyParseB;
+          localStorage.setItem("keyKanap", JSON.stringify(itemCanap));
+          itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
+          console.log("choix 1");
+        } else {
+          itemCanap.push(donneesAttente);
+          localStorage.setItem("keyKanap", JSON.stringify(itemCanap));
+          itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
+          console.log("choix 2");
+        }
       }
     });
   })

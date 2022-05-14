@@ -1,5 +1,6 @@
 const donneesParse = JSON.parse(localStorage.getItem("keyKanap"));
 const template = document.querySelector("#template-doc");
+let itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
 console.log(donneesParse);
 for (let i = 0; i < donneesParse.length; i++) {
   const copieTemplate = document.importNode(template.content, true);
@@ -21,13 +22,27 @@ for (let i = 0; i < donneesParse.length; i++) {
         const quantityCanap = copieTemplate.querySelector(
           ".cart__item__content__settings__quantity >input"
         );
+
+        const article = copieTemplate.querySelector(".cart__item");
+        article.dataset.dataId = data._id;
+        article.dataset.dataColor = donneesParse[i].color;
+
         let quantityNumber = parseInt(donneesParse[i].quantite);
+        let sommeTotal = copieTemplate.querySelector("#totalPrice");
         imagePdt.src = data.imageUrl;
         nomCanap.innerHTML = data.name;
         couleurCanap.innerHTML = donneesParse[i].color;
         priceCanap.innerHTML = data.price + " €";
         quantityCanap.value = quantityNumber;
-        console.log(quantityCanap.value);
+        sommeTotal = data.price * quantityNumber;
+
+        //modification quantité dans le local storage si modifié sur page panier
+        quantityCanap.addEventListener("change", modifQuantite);
+        function modifQuantite() {
+          itemCanap[i].quantite = quantityCanap.value;
+          localStorage.setItem("keyKanap", JSON.stringify(itemCanap));
+          itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
+        }
         // si positionnement de la ligne imagePdt après la ligne blocContent.appendChild ALORS ERREUR
         blocContent.appendChild(copieTemplate);
       })

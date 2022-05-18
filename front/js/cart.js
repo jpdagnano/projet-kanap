@@ -2,15 +2,12 @@ const donneesParse = JSON.parse(localStorage.getItem("keyKanap"));
 const template = document.querySelector("#template-doc");
 let itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
 let sommeTotal = 0;
-function modifQuantite() {
-  itemCanap[i].quantite = quantityCanap.value;
-  localStorage.setItem("keyKanap", JSON.stringify(itemCanap));
-  itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
-}
+
 for (let i = 0; i < donneesParse.length; i++) {
   const copieTemplate = document.importNode(template.content, true);
   //const copieTemplate = template.content.cloneNode(true);
   const blocContent = document.getElementById("cart__items");
+  let divDelete = copieTemplate.querySelector(".cart__item");
   fetch("http://localhost:3000/api/products/" + donneesParse[i].id).then(
     (response) =>
       response.json().then((data) => {
@@ -28,6 +25,7 @@ for (let i = 0; i < donneesParse.length; i++) {
           ".cart__item__content__settings__quantity >input"
         );
         const totalPrice = document.querySelector("#totalPrice");
+        const deleteButton = copieTemplate.querySelector(".deleteItem");
         let totalQuantity = document.querySelector("#totalQuantity");
 
         const article = copieTemplate.querySelector(".cart__item");
@@ -47,8 +45,20 @@ for (let i = 0; i < donneesParse.length; i++) {
 
         //modification quantité dans le local storage si modifié sur page panier
         quantityCanap.addEventListener("change", modifQuantite);
+        function modifQuantite() {
+          itemCanap[i].quantite = quantityCanap.value;
+          localStorage.setItem("keyKanap", JSON.stringify(itemCanap));
+          itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
+          window.location.reload();
+        }
+        deleteButton.addEventListener("click", () => {
+          divDelete.parentNode.removeChild(divDelete);
+          localStorage.removeItem("keyKanap");
 
-        // si positionnement de la ligne imagePdt après la ligne blocContent.appendChild ALORS ERREUR
+          // si positionnement de la ligne imagePdt après la ligne blocContent.appendChild ALORS ERREUR
+
+          //blocContent.parentNode.removeChild(blocContent);
+        });
         blocContent.appendChild(copieTemplate);
       })
   );

@@ -45,34 +45,36 @@ for (let i = 0; i < itemCanap.length; i++) {
         sommeTotal += data.price * quantityNumber;
         totalPrice.innerHTML = sommeTotal;
         console.log(itemCanap.length);
-
+        // BLOC CONTENT LIGNE DESSOUS
+        blocContent.appendChild(copieTemplate);
         //modification quantité dans le local storage si modifié sur page panier
         quantityCanap.addEventListener("change", modifQuantite);
         function modifQuantite() {
           itemCanap[i].quantite = quantityCanap.value;
           localStorage.setItem("keyKanap", JSON.stringify(itemCanap));
           itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
-          window.location.reload();
+          window.location.reload(sommeTotal);
         }
         deleteButton.addEventListener("click", () => {
           if (itemCanap.length > 1) {
-            let index = itemCanap.indexOf(i);
+            let index = itemCanap.indexOf("keyKanap", 0);
             console.log(index);
             divDelete.parentNode.removeChild(divDelete);
             itemCanap.splice(index, 1);
             localStorage.setItem("keyKanap", JSON.stringify(itemCanap));
             itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
-            window.location.reload();
+            //window.location.reload();
           } else {
             divDelete.parentNode.removeChild(divDelete);
             localStorage.removeItem("keyKanap");
+            window.location.reload(sommeTotal);
           }
 
           // si positionnement de la ligne imagePdt après la ligne blocContent.appendChild ALORS ERREUR
 
           //blocContent.parentNode.removeChild(blocContent);
         });
-        blocContent.appendChild(copieTemplate);
+        //blocContent.appendChild(copieTemplate);
       })
   );
 }

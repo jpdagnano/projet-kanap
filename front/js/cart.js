@@ -32,8 +32,8 @@ for (let i = 0; i < itemCanap.length; i++) {
         let totalQuantity = document.querySelector("#totalQuantity");
 
         const article = copieTemplate.querySelector(".cart__item");
-        article.dataset.dataId = data._id;
-        article.dataset.dataColor = itemCanap[i].color;
+        article.dataset.id = data._id;
+        article.dataset.color = itemCanap[i].color;
 
         let quantityNumber = parseInt(itemCanap[i].quantite);
         imagePdt.src = data.imageUrl;
@@ -44,7 +44,6 @@ for (let i = 0; i < itemCanap.length; i++) {
         totalQuantity.innerHTML = itemCanap.length;
         sommeTotal += data.price * quantityNumber;
         totalPrice.innerHTML = sommeTotal;
-        console.log(itemCanap.length);
         // BLOC CONTENT LIGNE DESSOUS
         blocContent.appendChild(copieTemplate);
         //modification quantité dans le local storage si modifié sur page panier
@@ -78,3 +77,18 @@ for (let i = 0; i < itemCanap.length; i++) {
       })
   );
 }
+donneesPrenom = document.querySelector("#firstName");
+donneesNom = document.querySelector("#lastName");
+donneesAdresse = document.querySelector("#address");
+donneesVIlle = document.querySelector("#city");
+donneesEmail = document.querySelector("#email");
+
+donneesPrenom.addEventListener("change", function () {
+  verifPrenom(this);
+});
+const verifPrenom = function (valeurPrenom) {
+  let prenomRegex = new RegExp("[a-zA-Z]");
+
+  let testPrenom = prenomRegex.test(valeurPrenom.value);
+  console.log(testPrenom);
+};

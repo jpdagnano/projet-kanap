@@ -82,13 +82,50 @@ donneesNom = document.querySelector("#lastName");
 donneesAdresse = document.querySelector("#address");
 donneesVIlle = document.querySelector("#city");
 donneesEmail = document.querySelector("#email");
-
+//REGEX PRENOM
 donneesPrenom.addEventListener("change", function () {
   verifPrenom(this);
 });
 const verifPrenom = function (valeurPrenom) {
-  let prenomRegex = new RegExp("[a-zA-Z]");
+  let prenomRegex = new RegExp("^[a-zA-Z-àâäéèêëïîôöùûüÿç ]+$");
 
   let testPrenom = prenomRegex.test(valeurPrenom.value);
+
+  if (testPrenom === false) {
+    console.log("ici");
+    alert(
+      "Prénom invalide, caractères spéciaux acceptés : à â ä é è ê ë ï î ô ö ù û ü ÿ ç "
+    );
+  }
   console.log(testPrenom);
+  console.log(valeurPrenom.value);
+};
+// REGEX NOM
+donneesNom.addEventListener("change", function () {
+  verifNom(this);
+});
+const verifNom = function (valeurNom) {
+  let nomRegex = new RegExp("^[a-zA-Z-àâäéèêëïîôöùûüÿç ]+$");
+
+  let testNom = nomRegex.test(valeurNom.value);
+
+  if (testNom === false) {
+    alert(
+      "Nom invalide, caractères spéciaux acceptés : à â ä é è ê ë ï î ô ö ù û ü ÿ ç "
+    );
+  }
+};
+
+//REGEX ADRESSE
+donneesAdresse.addEventListener("change", function () {
+  verifAdresse(this);
+});
+const verifAdresse = function (valeurAdresse) {
+  let adresseRegex = new RegExp("^[0-9a-zA-Z-àâäéèêëïîôöùûüÿç ]+$");
+
+  let testAdresse = adresseRegex.test(valeurAdresse.value);
+
+  if (testAdresse === false) {
+    alert("Adresse invalide");
+  }
 };

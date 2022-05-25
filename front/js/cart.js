@@ -3,9 +3,23 @@ const template = document.querySelector("#template-doc");
 let itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
 let sommeTotal = 0;
 
-console.log(itemCanap.indexOf);
-
 for (let i = 0; i < itemCanap.length; i++) {
+  //FONCTION POUR SUPPRESSION ITEM
+  function deleteItem(itemCanap, article) {
+    itemCanap.forEach((product, index) => {
+      if (
+        product.id == article.dataset.id &&
+        product.color == article.dataset.color
+      ) {
+        divDelete.parentNode.removeChild(divDelete);
+        itemCanap.splice(index, 1);
+        localStorage.setItem("keyKanap", JSON.stringify(itemCanap));
+        itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
+        window.location.reload(sommeTotal);
+      }
+    });
+  }
+
   const copieTemplate = document.importNode(template.content, true);
   //const copieTemplate = template.content.cloneNode(true);
   const blocContent = document.getElementById("cart__items");
@@ -55,24 +69,14 @@ for (let i = 0; i < itemCanap.length; i++) {
         }
         deleteButton.addEventListener("click", () => {
           if (itemCanap.length > 1) {
-            let index = itemCanap.indexOf("keyKanap", 0);
-            console.log(index);
-            divDelete.parentNode.removeChild(divDelete);
-            itemCanap.splice(index, 1);
-            localStorage.setItem("keyKanap", JSON.stringify(itemCanap));
-            itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
-            //window.location.reload();
+            deleteItem(itemCanap, article);
           } else {
             divDelete.parentNode.removeChild(divDelete);
             localStorage.removeItem("keyKanap");
             window.location.reload(sommeTotal);
           }
-
-          // si positionnement de la ligne imagePdt après la ligne blocContent.appendChild ALORS ERREUR
-
-          //blocContent.parentNode.removeChild(blocContent);
         });
-        //blocContent.appendChild(copieTemplate);
+        // si positionnement de la ligne imagePdt après la ligne blocContent.appendChild ALORS ERREUR
       })
   );
 }

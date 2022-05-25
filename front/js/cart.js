@@ -3,9 +3,8 @@ const template = document.querySelector("#template-doc");
 let itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
 let sommeTotal = 0;
 
-function delItem(elem) {
-  Element.remove();
-}
+console.log(itemCanap.indexOf);
+
 for (let i = 0; i < itemCanap.length; i++) {
   const copieTemplate = document.importNode(template.content, true);
   //const copieTemplate = template.content.cloneNode(true);
@@ -90,12 +89,12 @@ const verifPrenom = function (valeurPrenom) {
   let prenomRegex = new RegExp("^[a-zA-Z-àâäéèêëïîôöùûüÿç ]+$");
 
   let testPrenom = prenomRegex.test(valeurPrenom.value);
-
+  let erreur = document.querySelector("#firstNameErrorMsg");
   if (testPrenom === false) {
-    console.log("ici");
-    alert(
-      "Prénom invalide, caractères spéciaux acceptés : à â ä é è ê ë ï î ô ö ù û ü ÿ ç "
-    );
+    erreur.textContent =
+      "Prénom invalide, caractères spéciaux acceptés : à â ä é è ê ë ï î ô ö ù û ü ÿ ç";
+  } else {
+    erreur.textContent = "";
   }
   console.log(testPrenom);
   console.log(valeurPrenom.value);
@@ -106,13 +105,14 @@ donneesNom.addEventListener("change", function () {
 });
 const verifNom = function (valeurNom) {
   let nomRegex = new RegExp("^[a-zA-Z-àâäéèêëïîôöùûüÿç ]+$");
-
   let testNom = nomRegex.test(valeurNom.value);
+  let erreur = document.querySelector("#lastNameErrorMsg");
 
   if (testNom === false) {
-    alert(
-      "Nom invalide, caractères spéciaux acceptés : à â ä é è ê ë ï î ô ö ù û ü ÿ ç "
-    );
+    erreur.textContent =
+      "Nom invalide, caractères spéciaux acceptés : à â ä é è ê ë ï î ô ö ù û ü ÿ ç";
+  } else {
+    erreur.textContent = "";
   }
 };
 
@@ -122,10 +122,46 @@ donneesAdresse.addEventListener("change", function () {
 });
 const verifAdresse = function (valeurAdresse) {
   let adresseRegex = new RegExp("^[0-9a-zA-Z-àâäéèêëïîôöùûüÿç ]+$");
-
   let testAdresse = adresseRegex.test(valeurAdresse.value);
+  let erreur = document.querySelector("#addressErrorMsg");
 
   if (testAdresse === false) {
-    alert("Adresse invalide");
+    erreur.textContent =
+      "Adresse invalide, caractères spéciaux acceptés : à â ä é è ê ë ï î ô ö ù û ü ÿ ç";
+  } else {
+    erreur.textContent = "";
+  }
+};
+
+//REGEX VILLE
+donneesVIlle.addEventListener("change", function () {
+  verifVille(this);
+});
+const verifVille = function (valeurVille) {
+  let villeRegex = new RegExp("^[a-zA-Z- ]+$");
+  let testVille = villeRegex.test(valeurVille.value);
+  let erreur = document.querySelector("#cityErrorMsg");
+
+  if (testVille === false) {
+    erreur.textContent =
+      "Ville invalide, pas de caractères spéciaux ni d'accents acceptés";
+  } else {
+    erreur.textContent = "";
+  }
+};
+
+//REGEX E MAIL
+donneesEmail.addEventListener("change", function () {
+  verifEmail(this);
+});
+const verifEmail = function (valeurEmail) {
+  let emailRegex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
+  let testEmail = emailRegex.test(valeurEmail.value);
+  let erreur = document.querySelector("#emailErrorMsg");
+
+  if (testEmail === false) {
+    erreur.textContent = "Email invalide, format accepté : xxx@xxx.com/fr...";
+  } else {
+    erreur.textContent = "";
   }
 };

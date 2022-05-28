@@ -1,4 +1,3 @@
-const donneesParse = JSON.parse(localStorage.getItem("keyKanap"));
 const template = document.querySelector("#template-doc");
 let itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
 let sommeTotal = 0;
@@ -21,7 +20,6 @@ for (let i = 0; i < itemCanap.length; i++) {
   }
 
   const copieTemplate = document.importNode(template.content, true);
-  //const copieTemplate = template.content.cloneNode(true);
   const blocContent = document.getElementById("cart__items");
   let divDelete = copieTemplate.querySelector(".cart__item");
   fetch("http://localhost:3000/api/products/" + itemCanap[i].id).then(
@@ -76,6 +74,7 @@ for (let i = 0; i < itemCanap.length; i++) {
             window.location.reload(sommeTotal);
           }
         });
+
         // si positionnement de la ligne imagePdt après la ligne blocContent.appendChild ALORS ERREUR
       })
   );
@@ -83,8 +82,9 @@ for (let i = 0; i < itemCanap.length; i++) {
 donneesPrenom = document.querySelector("#firstName");
 donneesNom = document.querySelector("#lastName");
 donneesAdresse = document.querySelector("#address");
-donneesVIlle = document.querySelector("#city");
+donneesVille = document.querySelector("#city");
 donneesEmail = document.querySelector("#email");
+
 //REGEX PRENOM
 donneesPrenom.addEventListener("change", function () {
   verifPrenom(this);
@@ -100,8 +100,6 @@ const verifPrenom = function (valeurPrenom) {
   } else {
     erreur.textContent = "";
   }
-  console.log(testPrenom);
-  console.log(valeurPrenom.value);
 };
 // REGEX NOM
 donneesNom.addEventListener("change", function () {
@@ -138,7 +136,7 @@ const verifAdresse = function (valeurAdresse) {
 };
 
 //REGEX VILLE
-donneesVIlle.addEventListener("change", function () {
+donneesVille.addEventListener("change", function () {
   verifVille(this);
 });
 const verifVille = function (valeurVille) {
@@ -169,3 +167,31 @@ const verifEmail = function (valeurEmail) {
     erreur.textContent = "";
   }
 };
+
+///ENVOI REQUETE FORMULAIRE
+const inputBtn = document.querySelector("#order");
+
+function calculId() {
+  let canapId = [];
+  itemCanap.forEach((item, index) => {
+    canapId.push(itemCanap[index].id);
+    localStorage.setItem("donneesFinal", JSON.stringify(canapId));
+  });
+}
+
+inputBtn.addEventListener("click", calculId);
+{
+  let donneesClient = {
+    firstName: donneesPrenom.value,
+    lastName: donneesNom.value,
+    address: donneesAdresse.value,
+    city: donneesVille.value,
+    email: donneesEmail.value,
+  };
+  const donneesEnvoi = [localStorage.getItem("donneesFinal"), donneesClient];
+  console.log(donneesEnvoi);
+  const reponseServ = fetch("http://localhost:3000/api/products/order", {
+    method: "POST",
+    body: JSON.stringify(donneesEnvoi),
+  });
+}

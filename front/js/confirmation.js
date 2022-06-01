@@ -1,8 +1,9 @@
-donneesPrenom = document.querySelector("#firstName");
-donneesNom = document.querySelector("#lastName");
-donneesAdresse = document.querySelector("#adress");
-donneesVIlle = document.querySelector("#city");
+const pageIdWindow = window.location.search;
 
-console.log(donneesPrenom, donneesNom, donneesAdresse, donneesVIlle);
+const globalUrl = new URLSearchParams(pageIdWindow);
 
+const numberOrder = globalUrl.get("orderid");
 
+let order = document.querySelector("#orderId");
+
+order.textContent = numberOrder;

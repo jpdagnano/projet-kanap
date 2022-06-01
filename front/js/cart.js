@@ -175,23 +175,38 @@ function calculId() {
   let canapId = [];
   itemCanap.forEach((item, index) => {
     canapId.push(itemCanap[index].id);
-    localStorage.setItem("donneesFinal", JSON.stringify(canapId));
   });
+  return canapId;
 }
-
-inputBtn.addEventListener("click", calculId);
-{
-  let donneesClient = {
+function donneesClientArray() {
+  let infoClient = {
     firstName: donneesPrenom.value,
     lastName: donneesNom.value,
     address: donneesAdresse.value,
     city: donneesVille.value,
     email: donneesEmail.value,
   };
-  const donneesEnvoi = [localStorage.getItem("donneesFinal"), donneesClient];
+  return infoClient;
+}
+function RedirectionConfirmation(orderId) {
+  document.location.href = `http://127.0.0.1:5500/front/html/confirmation.html?orderid=${orderId}`;
+}
+inputBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  const donneesEnvoi = {
+    products: calculId(),
+    contact: donneesClientArray(),
+  };
   console.log(donneesEnvoi);
   const reponseServ = fetch("http://localhost:3000/api/products/order", {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(donneesEnvoi),
-  });
-}
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      RedirectionConfirmation(data.orderId);
+    });
+});

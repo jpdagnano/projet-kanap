@@ -157,7 +157,9 @@ donneesEmail.addEventListener("change", function () {
   verifEmail(this);
 });
 const verifEmail = function (valeurEmail) {
-  let emailRegex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
+  let emailRegex = new RegExp(
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  );
   let testEmail = emailRegex.test(valeurEmail.value);
   let erreur = document.querySelector("#emailErrorMsg");
 
@@ -197,16 +199,25 @@ inputBtn.addEventListener("click", (event) => {
     products: calculId(),
     contact: donneesClientArray(),
   };
-  console.log(donneesEnvoi);
-  const reponseServ = fetch("http://localhost:3000/api/products/order", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(donneesEnvoi),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      RedirectionConfirmation(data.orderId);
-    });
+  if (
+    donneesPrenom.value == false ||
+    donneesNom.value == false ||
+    donneesAdresse.value == false ||
+    donneesVille.value == false ||
+    donneesEmail.value == false
+  ) {
+    alert("Formulaire incomplet");
+  } else {
+    const reponseServ = fetch("http://localhost:3000/api/products/order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(donneesEnvoi),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        RedirectionConfirmation(data.orderId);
+      });
+  }
 });

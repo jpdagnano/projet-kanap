@@ -55,6 +55,8 @@ fetch("http://localhost:3000/api/products/" + pageId).then((response) =>
         itemCanap.push(donneesAttente);
         localStorage.setItem("keyKanap", JSON.stringify(itemCanap));
         itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
+      } else if (donneesAttente.quantite == "0" || donneesAttente.color == "") {
+        alert("Merci de selectionner une couleur/une quantité >0");
       } else if (
         itemCanap != null &&
         donneesAttente.quantite != "0" &&

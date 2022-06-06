@@ -46,12 +46,20 @@ fetch("http://localhost:3000/api/products/" + pageId).then((response) =>
         color: color.value,
         quantite: quantite.value,
       };
-      if (itemCanap == null) {
+      if (
+        itemCanap == null &&
+        donneesAttente.quantite != "0" &&
+        donneesAttente.color != ""
+      ) {
         itemCanap = [];
         itemCanap.push(donneesAttente);
         localStorage.setItem("keyKanap", JSON.stringify(itemCanap));
         itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
-      } else if (itemCanap != null) {
+      } else if (
+        itemCanap != null &&
+        donneesAttente.quantite != "0" &&
+        donneesAttente.color != ""
+      ) {
         let indexProduct = checkProductCart(itemCanap, donneesAttente);
         console.log(indexProduct);
         if (indexProduct >= 0) {

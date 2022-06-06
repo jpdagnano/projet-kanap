@@ -18,6 +18,8 @@ fetch("http://localhost:3000/api/products/" + pageId).then((response) =>
     console.log(data);
     let price = document.getElementById("price");
     price.innerHTML = data.price;
+    let nomProduit = document.getElementById("title");
+    nomProduit.textContent = data.name;
 
     let description = document.getElementById("description");
     description.innerHTML = data.description;

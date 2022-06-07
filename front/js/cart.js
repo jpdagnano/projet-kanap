@@ -60,10 +60,19 @@ for (let i = 0; i < itemCanap.length; i++) {
         //modification quantité dans le local storage si modifié sur page panier
         quantityCanap.addEventListener("change", modifQuantite);
         function modifQuantite() {
-          itemCanap[i].quantite = quantityCanap.value;
-          localStorage.setItem("keyKanap", JSON.stringify(itemCanap));
-          itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
-          window.location.reload(sommeTotal);
+          if (quantityCanap.value > 100) {
+            alert("quantité maximum atteinte (100 produits)");
+            quantityCanap.value = 100;
+            itemCanap[i].quantite = 100;
+            localStorage.setItem("keyKanap", JSON.stringify(itemCanap));
+            itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
+            window.location.reload(sommeTotal);
+          } else {
+            itemCanap[i].quantite = quantityCanap.value;
+            localStorage.setItem("keyKanap", JSON.stringify(itemCanap));
+            itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
+            window.location.reload(sommeTotal);
+          }
         }
         deleteButton.addEventListener("click", () => {
           if (itemCanap.length > 1) {

@@ -49,7 +49,8 @@ fetch("http://localhost:3000/api/products/" + pageId).then((response) =>
       if (
         itemCanap == null &&
         donneesAttente.quantite != "0" &&
-        donneesAttente.color != ""
+        donneesAttente.color != "" &&
+        donneesAttente.quantite <= 100
       ) {
         itemCanap = [];
         itemCanap.push(donneesAttente);
@@ -57,6 +58,8 @@ fetch("http://localhost:3000/api/products/" + pageId).then((response) =>
         itemCanap = JSON.parse(localStorage.getItem("keyKanap"));
       } else if (donneesAttente.quantite == "0" || donneesAttente.color == "") {
         alert("Merci de selectionner une couleur/une quantité >0");
+      } else if (donneesAttente.quantite > 100) {
+        alert("Merci de modifier la quantité, maximum 100 canapés");
       } else if (
         itemCanap != null &&
         donneesAttente.quantite != "0" &&
